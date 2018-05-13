@@ -17,20 +17,36 @@ exports.signup = (req, res, next) => {
 
     if(!email || !password) { return res.status(422).send("Please, provide email and password!") }
 
-    User.findOne({ email: email }), (err, existingUser) => {
+    console.log("we are here");
+
+    // const user = new User({
+    //     email: email,
+    //     password: password
+    // });
+    // console.log(user);
+    // user.save(err => {
+    //     if(err) { return next(err); }
+    //     console.log(user);
+    //     res.json({ token: generateToken(user) });
+    // });
+
+    User.findOne({ email: email }, (err, existingUser) => {
+        console.log("in user model before error");
         if(err) { return next(err); }
+        console.log("in user model after error");
 
         if(existingUser) { return res.status(422).send("Email in use!"); }
+        console.log("in user model after existing user");
 
         const user = new User({
             email: email,
             password: password
         });
-
+        console.log(user);
         user.save(err => {
             if(err) { return next(err); }
-
+            console.log(user);
             res.json({ token: generateToken(user) });
         });
-    };
+    });
 }

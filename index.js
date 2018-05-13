@@ -4,17 +4,15 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const router = require('./router');
-require('./services/passport');
 
 const app = express();
 
 //DB Setup
+mongoose.connect("mongodb://andrewchopko:12345678@ds219130.mlab.com:19130/caffeine-dev");
 
 //App Setup
 app.use(bodyParser.json({ type: '*/*' }));
 app.use(cors());
-app.use(passport.initialize());
-
 router(app);
 
 
